@@ -44,7 +44,7 @@ def generate_qr():
 
     except ValueError as ve:
         messagebox.showerror("Input Error: ", str(ve))
-    except ValueError as e:
+    except Exception as e:
         messagebox.showerror("Error: ", str(e))
 
 def save_qr():
