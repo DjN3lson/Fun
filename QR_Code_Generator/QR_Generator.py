@@ -2,10 +2,14 @@ import qrcode as qrc
 import tkinter as tk
 from tkinter import ttk, colorchooser, messagebox
 from PIL import Image, ImageTk
+import unittest
 
 def generate_qr():
     global img
-    link = link_entry.get()
+    try:
+        link = link_entry.get()
+        if not link:
+            raise ValueError("Missing Link")
     name = name_entry.get()
     version = int(version_slider.get())
     box_size = int(box_size_slider.get())
@@ -38,12 +42,21 @@ def generate_qr():
     preview_label.config(image=preview_img_tk)
     preview_label.image = preview_img_tk
 
+    except ValueError as ve:
+        messagebox.showerror("Input Error: ", str(ve))
+    except ValueError as e:
+        messagebox.showerror("Error: ", str(e))
+
 def save_qr():
-    name = name_entry.get()
-    if not name:
-        messagebox.showerror("Invalid Name", "Please enter a name")
-        return
-    img.save(name + '.png')
+     try:
+        name = name_entry.get()
+        if not name:
+            raise ValueError("Please enter a name.")
+        img.save(name + '.png')
+    except ValueError as ve:
+        messagebox.showerror("Input Error", str(ve))
+    except Exception as e:
+        messagebox.showerror("Error", str(e))
 
 def choose_fill_color():
     color_code = colorchooser.askcolor(title="Choose Fill Color")
